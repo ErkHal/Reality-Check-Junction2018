@@ -19,40 +19,72 @@ const config = {
     }
 };
 
-const switchDimensionsKey = this.input.keyboard.addKey(Phaser.input.Keyboard.KeyCodes.Space);
+let switchDimensionsKey;
 
 let player;
 let cursors;
-let platformsReality;
-let platformsNightmare;
+
+let drawablePlatforms;
+
+let nightmareModeOn = false;
 
 const game = new Phaser.Game(config);
 
 function preload ()
 {
+    this.drawablePlatforms = drawablePlatforms;
     this.load.image('platformGreen', 'assets/textures/platformGreen.png')
+    this.load.image('platformRed', 'assets/textures/platformRed.png')
     this.load.image('player', 'assets/Protagonist.png');
 }
 
 function create ()
 {
+    //Player sprite and physics init
     player = this.physics.add.sprite(100, 400, 'player');
     player.setBounce(0);
     player.setCollideWorldBounds(true);     
     player.body.setGravityY(300)
-    cursors = this.input.keyboard.createCursorKeys();
 
-    platformsReality = this.physics.add.staticGroup();
+    setupKeybindings(this)
 
-    platformsReality.create(400, 568, 'platformGreen').setScale(1.9).refreshBody();
-    platformsReality.create(600, 440, 'platformGreen').setScale(0.8).refreshBody();
-    platformsReality.create(50, 250, 'platformGreen').setScale(0.7).refreshBody();
-    platformsReality.create(750, 220, 'platformGreen').setScale(0.5).refreshBody();
-    this.physics.add.collider(player, platformsReality);
+    drawWorld(this)
+
 }
 
 function update () {
     checkMovement();
+}
+
+function drawWorld(ctx) {
+
+    try {
+
+        if(drawablePlatforms) {
+            let children = drawablePlatforms.getChildren()
+            children.forEach(element => {
+                element.disableBody(true, true);
+            });
+        }
+
+        if(nightmareModeOn) {
+            //Nightmare platforms
+            drawablePlatforms = ctx.physics.add.staticGroup();
+            drawablePlatforms.create(200, 570, 'platformRed').refreshBody();
+            drawablePlatforms.create(600, 570, 'platformRed').refreshBody();
+            drawablePlatforms.create(1000, 570, 'platformRed').refreshBody();
+            ctx.physics.add.collider(player, drawablePlatforms);
+        } else {
+            //Reality platforms
+            drawablePlatforms = ctx.physics.add.staticGroup();
+            drawablePlatforms.create(200, 570, 'platformGreen').refreshBody();
+            drawablePlatforms.create(600, 570, 'platformGreen').refreshBody();
+            drawablePlatforms.create(1000, 570, 'platformGreen').refreshBody();
+            ctx.physics.add.collider(player, drawablePlatforms);
+        }
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 function checkMovement() {
@@ -70,4 +102,15 @@ function checkMovement() {
     if(cursors.up.isDown && player.body.touching.down) {
         player.setVelocityY(-330);
     } 
+}
+
+function setupKeybindings(ctx) {
+    cursors = ctx.input.keyboard.createCursorKeys();
+
+    ctx.input.keyboard.on('keyup', event => {
+        if(event.code == "Space") {
+            nightmareModeOn = !nightmareModeOn
+            drawWorld(ctx);
+        }
+    });
 }
