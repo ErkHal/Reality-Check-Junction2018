@@ -5,7 +5,7 @@ const path = require('path');
 
 module.exports = {
 
-    entry: './src/index.js',
+    entry: './src/SceneController.js',
 
     output: {
         path: path.resolve(__dirname, 'build'),

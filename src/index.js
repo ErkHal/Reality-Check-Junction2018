@@ -33,8 +33,8 @@ const game = new Phaser.Game(config);
 function preload ()
 {
     this.drawablePlatforms = drawablePlatforms;
-    this.load.image('platformGreen', 'assets/textures/platformGreen.png')
-    this.load.image('platformRed', 'assets/textures/platformRed.png')
+    this.load.image('platformGreen', 'assets/textures/platformWhite.png')
+    this.load.image('platformRed', 'assets/textures/platformBlack.png')
     this.load.image('player', 'assets/Protagonist.png');
 }
 
