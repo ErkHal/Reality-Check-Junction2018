@@ -27,7 +27,7 @@ let playerStartPosY = 400;
 let cursors;
 let monster;
 let drawablePlatforms;
-
+let key;
 let nightmareModeOn = false;
 
 let game = new Phaser.Game(config);
@@ -45,6 +45,7 @@ function preload ()
     this.load.image('platformRed', 'assets/textures/platformRed.png');
     this.load.image('player', 'assets/Protagonist.png');
     this.load.spritesheet('monster', 'assets/textures/monster1_spritesheet.png', {frameWidth:32, frameHeight:32,endFrame:5});
+    this.load.image('key','assets/textures/Key.png');
 
 }
 
@@ -70,6 +71,8 @@ function create ()
     monster = this.physics.add.sprite(300,200,"monster").setScale(4);
     monster.body.setGravity(0);
     monster.anims.play('wobble');
+
+    key = this.physics.add.sprite(650,375,'key');
 
     setupKeybindings(this);
 
@@ -111,6 +114,10 @@ function drawWorld(ctx) {
     } catch (err) {
         console.log(err);
     }
+}
+
+function checkObjectCollision(){
+    
 }
 
 function checkMovement() {
