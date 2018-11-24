@@ -41,7 +41,6 @@ window.onload = () => {
 
 function preload ()
 {
-    otherP.preload();
     this.drawablePlatforms = drawablePlatforms;
     this.load.image('player', 'assets/Protagonist.png');
 
@@ -50,7 +49,6 @@ function preload ()
 
 function create ()
 {
-    otherP.create();
     //Player sprite and physics init
     player = this.physics.add.sprite(tileSize * 5, tileSize * 5, 'player');
     player.setBounce(0);
