@@ -1,4 +1,5 @@
 import 'phaser';
+import canvasResize from "./canvasResize";
 
 const config = {
     type: Phaser.AUTO,
@@ -29,6 +30,12 @@ let drawablePlatforms;
 let nightmareModeOn = false;
 
 let game = new Phaser.Game(config);
+
+//Set game to fit browser window
+window.onload = () => {
+    canvasResize(game);
+    window.onresize = () => canvasResize(game);
+};
 
 function preload ()
 {
