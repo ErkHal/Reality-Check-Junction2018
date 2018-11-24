@@ -1,3 +1,5 @@
+import playerAnims from "../playerAnims";
+
 export class SceneA extends Phaser.Scene{
 
     constructor(){
@@ -21,7 +23,7 @@ export class SceneA extends Phaser.Scene{
     {
         this.load.image('platformWhite', 'assets/textures/platformWhite.png');
         this.load.image('platformBlack', 'assets/textures/platformBlack.png');
-        this.load.image('player', 'assets/Protagonist.png');
+        this.load.spritesheet('player', 'assets/player-all.png', {frameWidth: 10, frameHeight: 14, endFrame: 10});
         this.load.spritesheet('monster', 'assets/textures/monster1_spritesheet.png', {frameWidth:32, frameHeight:32,endFrame:5});
         //this.load.image('key','assets/textures/Key.png');
 
@@ -30,11 +32,21 @@ export class SceneA extends Phaser.Scene{
     create ()
     {
         //Player sprite and physics init
-        this.player = this.physics.add.sprite(this.playerStartingX, this.playerStartingY, 'player');
+        this.player = this.physics.add.sprite(this.playerStartingX, this.playerStartingY, 'player').setScale(4);
         this.player.setBounce(0);
         this.player.setCollideWorldBounds(true);
         this.player.body.setGravityY(300);
-
+        //player animations
+        playerAnims.forEach(anim => {
+           this.anims.create({
+               key: anim.key,
+               frames: this.anims.generateFrameNumbers('player', {
+                   start: anim.start,
+                   end: anim.end,
+               }),
+               frameRate: 7
+           })
+        });
         //monster setup
         this.monster = this.physics.add.sprite(this.monsterStartingX, this.monsterStartingY,"monster").setScale(4);
         this.monster.body.setGravity(0);
@@ -61,20 +73,27 @@ export class SceneA extends Phaser.Scene{
     }
 
     checkMovement() {
-
+        if (this.player.body.touching.down && this.cursors.up.isDown) {
+                this.player.setVelocityY(-330);
+                this.player.anims.play('jump', true);
+                return;
+        } else if (!this.player.body.touching.down) {
+            this.player.anims.play('jump', true);
+        }
         if(this.cursors.left.isDown) {
             this.player.setVelocityX(-160)
+            this.player.anims.play('left-run', true);
             console.log('left')
         }
         else if(this.cursors.right.isDown) {
             this.player.setVelocityX(160)
+            this.player.anims.play('right-run', true);
             console.log('right')
         } else {
             this.player.setVelocityX(0)
-        }
-
-        if(this.cursors.up.isDown && this.player.body.touching.down) {
-            this.player.setVelocityY(-330);
+            if (this.player.body.touching.down) {
+                this.player.anims.play('right');
+            }
         }
     }
 
