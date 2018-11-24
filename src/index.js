@@ -20,8 +20,6 @@ const config = {
     }
 };
 
-let switchDimensionsKey;
-
 let player;
 let cursors;
 
