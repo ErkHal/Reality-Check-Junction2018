@@ -28,14 +28,17 @@ let drawablePlatforms;
 
 let nightmareModeOn = false;
 
-const game = new Phaser.Game(config);
+let game = new Phaser.Game(config);
 
 function preload ()
 {
     this.drawablePlatforms = drawablePlatforms;
-    this.load.image('platformGreen', 'assets/textures/platformGreen.png')
-    this.load.image('platformRed', 'assets/textures/platformRed.png')
+    this.load.image('platformGreen', 'assets/textures/platformGreen.png');
+    this.load.image('platformRed', 'assets/textures/platformRed.png');
     this.load.image('player', 'assets/Protagonist.png');
+    this.load.spritesheet('monster', 'assets/textures/monster1_spritesheet.png', {frameWidth:32, frameHeight:32,endFrame:5});
+
+
 }
 
 function create ()
@@ -46,9 +49,22 @@ function create ()
     player.setCollideWorldBounds(true);     
     player.body.setGravityY(300)
 
-    setupKeybindings(this)
+    let monsterconfig = {
+        key: 'wobble',
+        frames: this.anims.generateFrameNumbers('monster', { start: 0, end: 23, first: 23 }),
+        frameRate: 5,
+        repeat:-1
+    };
 
-    drawWorld(this)
+    this.anims.create(monsterconfig);
+
+    let monster = this.add.sprite(300,200,"monster").setScale(4);
+    //let wobble = monster.animations.add('wobble');
+    monster.anims.play('wobble');
+
+    setupKeybindings(this);
+
+    drawWorld(this);
 
 }
 
