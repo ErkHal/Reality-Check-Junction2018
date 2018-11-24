@@ -109,7 +109,6 @@ export class SceneA extends Phaser.Scene{
                 //Nightmare platforms
                 this.monster.visible = true;
                 this.drawablePlatforms = this.physics.add.staticGroup();
-                this.drawablePlatforms.create(width/2, height, null).refreshBody();
                 this.drawablePlatforms.create(200, 570, 'platformBlack').refreshBody();
                 this.drawablePlatforms.create(600, 400, 'platformBlack').refreshBody();
                 this.physics.add.collider(this.player, this.drawablePlatforms);
