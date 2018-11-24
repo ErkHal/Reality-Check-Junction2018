@@ -4,8 +4,9 @@ import canvasResize from "./canvasResize";
 const config = {
     type: Phaser.AUTO,
     parent: 'phaser-example',
-    width: 1200,
-    height: 700,
+    width: 16*48,
+    height: 16*24,
+    pixelArt: true,
     physics: {
         default: 'arcade',
         arcade: {
@@ -63,7 +64,7 @@ function create ()
 
     this.anims.create(monsterconfig);
 
-    let monster = this.add.sprite(300,200,"monster").setScale(4);
+    let monster = this.add.sprite(300,200,"monster");
     //let wobble = monster.animations.add('wobble');
     monster.anims.play('wobble');
 
