@@ -1,11 +1,14 @@
 import 'phaser';
 import canvasResize from "./canvasResize";
+import Player from './player';
+
+const tileSize = 16;
 
 const config = {
     type: Phaser.AUTO,
     parent: 'phaser-example',
-    width: 16*48,
-    height: 16*24,
+    width: tileSize*11,
+    height: tileSize*11,
     pixelArt: true,
     physics: {
         default: 'arcade',
@@ -38,35 +41,43 @@ window.onload = () => {
 
 function preload ()
 {
+    otherP.preload();
     this.drawablePlatforms = drawablePlatforms;
-    this.load.image('platformGreen', 'assets/textures/platformGreen.png');
-    this.load.image('platformRed', 'assets/textures/platformRed.png');
     this.load.image('player', 'assets/Protagonist.png');
-    this.load.spritesheet('monster', 'assets/textures/monster1_spritesheet.png', {frameWidth:32, frameHeight:32,endFrame:5});
 
-
+    this.load.image("worldSpace", "assets/worldSpace.png");
 }
 
 function create ()
 {
+    otherP.create();
     //Player sprite and physics init
-    player = this.physics.add.sprite(100, 400, 'player');
+    player = this.physics.add.sprite(tileSize * 5, tileSize * 5, 'player');
     player.setBounce(0);
     player.setCollideWorldBounds(true);     
     player.body.setGravityY(300)
 
-    let monsterconfig = {
-        key: 'wobble',
-        frames: this.anims.generateFrameNumbers('monster', { start: 0, end: 23, first: 23 }),
-        frameRate: 5,
-        repeat:-1
-    };
+    // Load a map from a 2D array of tile indices
+    const level = [
+        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0 ],
+        [  0,   0,   0,   0,   0,   0,   0,   1,   1,   0,   0 ],
+        [  0,   0,   1,   1,   0,   0,   1,   1,   1,   1,   1 ],
+        [  1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1 ],
+        [  1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1 ],
+        [  1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1 ]
+    ];
 
-    this.anims.create(monsterconfig);
-
-    let monster = this.add.sprite(300,200,"monster");
-    //let wobble = monster.animations.add('wobble');
-    monster.anims.play('wobble');
+    // When loading from an array, make sure to specify the tileWidth and tileHeight
+    const map = this.make.tilemap({ data: level, tileWidth: tileSize, tileHeight: tileSize });
+    const tiles = map.addTilesetImage("worldSpace");
+    const layer = map.createStaticLayer(0, tiles, 0, 0);
+    layer.setCollision(1);
+    this.physics.add.collider(player, layer);
 
     setupKeybindings(this);
 

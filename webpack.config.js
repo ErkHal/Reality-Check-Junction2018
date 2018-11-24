@@ -14,6 +14,12 @@ module.exports = {
     },
 
     module: {
+        loaders: [
+            {
+                test: path.join(__dirname, 'src'),
+                loader: 'babel-loader'
+            }
+        ],
         rules: [
           {
             test: [ /\.vert$/, /\.frag$/ ],
