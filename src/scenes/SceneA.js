@@ -62,11 +62,6 @@ export class SceneA extends Phaser.Scene{
 
     checkMovement() {
 
-        console.log(this.window.height)
-        if(this.player.y >= window.height) {
-            this.resetObjectsToStartingPosition();
-        }
-
         if(this.cursors.left.isDown) {
             this.player.setVelocityX(-160)
             console.log('left')
