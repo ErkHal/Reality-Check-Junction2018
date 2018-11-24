@@ -10,7 +10,7 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y:300 },
+            //gravity: { y:300 },
             debug: false
         }
     },
@@ -22,8 +22,10 @@ const config = {
 };
 
 let player;
+let playerStartPosX = 100;
+let playerStartPosY = 400;
 let cursors;
-
+let monster;
 let drawablePlatforms;
 
 let nightmareModeOn = false;
@@ -44,28 +46,29 @@ function preload ()
     this.load.image('player', 'assets/Protagonist.png');
     this.load.spritesheet('monster', 'assets/textures/monster1_spritesheet.png', {frameWidth:32, frameHeight:32,endFrame:5});
 
-
 }
 
 function create ()
 {
     //Player sprite and physics init
-    player = this.physics.add.sprite(100, 400, 'player');
+    player = this.physics.add.sprite(playerStartPosX, playerStartPosY, 'player');
     player.setBounce(0);
     player.setCollideWorldBounds(true);     
-    player.body.setGravityY(300)
+    player.body.setGravityY(300);
 
+    //animation config
     let monsterconfig = {
         key: 'wobble',
         frames: this.anims.generateFrameNumbers('monster', { start: 0, end: 23, first: 23 }),
         frameRate: 5,
-        repeat:-1
+        repeat:-1,
     };
 
     this.anims.create(monsterconfig);
 
-    let monster = this.add.sprite(300,200,"monster");
-    //let wobble = monster.animations.add('wobble');
+    //monster setup
+    monster = this.physics.add.sprite(300,200,"monster").setScale(4);
+    monster.body.setGravity(0);
     monster.anims.play('wobble');
 
     setupKeybindings(this);
@@ -76,6 +79,7 @@ function create ()
 
 function update () {
     checkMovement();
+    monsterMovement(this);
 }
 
 function drawWorld(ctx) {
@@ -126,6 +130,23 @@ function checkMovement() {
     } 
 }
 
+function monsterMovement(ctx){
+    if(nightmareModeOn){
+        ctx.physics.moveToObject(monster,player,80);
+        let collider = ctx.physics.add.collider(player, monster, null, function ()
+        {
+            player.setPosition(playerStartPosX,playerStartPosY);
+            monster.setPosition(300,200);
+            nightmareModeOn = false;
+            drawWorld(ctx);
+            ctx.physics.world.removeCollider(collider);
+        }, ctx);
+    }else{
+        monster.body.stop();
+
+    }
+}
+
 function setupKeybindings(ctx) {
     cursors = ctx.input.keyboard.createCursorKeys();
 
@@ -136,3 +157,4 @@ function setupKeybindings(ctx) {
         }
     });
 }
+
