@@ -3,6 +3,7 @@ import { SceneA } from './scenes/SceneA';
 import { SceneB } from './scenes/SceneB';
 import { SceneC } from './scenes/SceneC';
 import resize from "./windowResize";
+import {SceneW} from "./scenes/SceneW";
 
 class Controller extends Phaser.Scene {
 
@@ -38,7 +39,7 @@ const config = {
             debug: false
         }
     },
-    scene: [ Controller, SceneA, SceneB, SceneC]
+    scene: [ Controller, SceneA, SceneB, SceneC, SceneW]
 };
 
 let game = new Phaser.Game(config);
