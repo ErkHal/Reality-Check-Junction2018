@@ -2,6 +2,7 @@ import 'phaser';
 import { SceneA } from './scenes/SceneA';
 import { SceneB } from './scenes/SceneB';
 import { SceneC } from './scenes/SceneC';
+import resize from "./windowResize";
 
 class Controller extends Phaser.Scene {
 
@@ -41,3 +42,11 @@ const config = {
 };
 
 let game = new Phaser.Game(config);
+
+//resize canvas to fit window
+window.onload = () => {
+    resize(game);
+    window.onresize = () => {
+        resize(game);
+    }
+};
