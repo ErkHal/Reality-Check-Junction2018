@@ -10,19 +10,10 @@ class Controller extends Phaser.Scene {
 
     constructor () {
         super('Controller');
-
-        this.active;
-        this.currentScene;
-    }
-
-    setActiveScene(scene){
-        this.activate.setData('active',false);
-        this.currentScene = scene;
     }
 
     create(){
         this.scene.start('SceneStart');
-        this.currentScene = this.scene.get('SceneStart');
     }
 
 }

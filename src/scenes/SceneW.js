@@ -6,12 +6,33 @@ export class SceneW extends Phaser.Scene{
     }
 
     create() {
-        this.text = this.make.text({
-            x: 130,
+        this.make.text({
+            x: 170,
             y: 100,
-            text:"win",
+            text:"The End",
             style: {
                 fontSize: '100px'
+            }
+        });
+        this.make.text({
+            x: 760,
+            y: 410,
+            text:"Made By: \nErkki Halinen\nMikko Uusimaa\nMarkus Pikkanen",
+            style: {
+                fontSize: '30px'
+            }
+        });
+        this.make.text({
+            x: 330,
+            y: 630,
+            text:"Junction Hackathon 2018 Game Jam Challenge",
+            style: {
+                fontSize: '18px'
+            }
+        });
+        this.input.keyboard.on('keyup',event => {
+            if(event.code === 'Enter'){
+                this.scene.start('SceneStart');
             }
         });
     }

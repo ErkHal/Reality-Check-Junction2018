@@ -73,7 +73,6 @@ export class SceneB extends Phaser.Scene {
         this.monster.anims.play('wobble');
 
         this.drawKey();
-        //this.key = this.physics.add.sprite(this.keyX, this.keyY,'key');
         this.doubledoor = this.physics.add.sprite(this.doubledoorX, this.doubledoorY,'doubledoor').setScale(4);
 
         this.physics.add.collider(this.player, this.drawablePlatforms);
@@ -85,10 +84,6 @@ export class SceneB extends Phaser.Scene {
         this.checkMovement();
         this.monsterMovement();
         this.floorBoundCheck();
-
-        if(this.player.y > 671){
-            this.resetLevel();
-        }
 
         if(this.checkCollide(this.player,this.key)){
             this.collectItem(this.key);

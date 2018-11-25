@@ -4,7 +4,7 @@ export class SceneC extends Phaser.Scene {
 
     constructor(){
         super('SceneC');
-        this.nextScene = 'SceneD';
+        this.nextScene = 'SceneW';
 
         this.player;
         this.cursors;
