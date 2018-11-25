@@ -1,5 +1,7 @@
 import 'phaser';
-import {SceneA} from './scenes/SceneA';
+import { SceneA } from './scenes/SceneA';
+import { SceneB } from './scenes/SceneB';
+import { SceneC } from './scenes/SceneC';
 
 class Controller extends Phaser.Scene {
 
@@ -35,7 +37,7 @@ const config = {
             debug: false
         }
     },
-    scene: [ Controller, SceneA]
+    scene: [ Controller, SceneA, SceneB, SceneC]
 };
 
 let game = new Phaser.Game(config);

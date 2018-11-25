@@ -1,10 +1,8 @@
-import playerAnims from "../playerAnims";
-
-export class SceneA extends Phaser.Scene{
+export class SceneB extends Phaser.Scene {
 
     constructor(){
-        super('SceneA');
-        this.nextScene = 'SceneB';
+        super('SceneB');
+        this.nextScene = 'SceneC';
 
         this.player;
         this.cursors;
@@ -15,25 +13,25 @@ export class SceneA extends Phaser.Scene{
         this.nightmareModeOn = false;
 
         this.playerStartingX = 120;
-        this.playerStartingY = 400;
+        this.playerStartingY = 620;
 
         this.monsterStartingX = 300;
         this.monsterStartingY = 150;
         this.monsterSpeed = 80;
 
-        this.keyX = 500;
-        this.keyY = 340;
+        this.keyX = 1150;
+        this.keyY = 300;
         this.keyCollected = false;
 
         this.doubledoorX = 1150;
-        this.doubledoorY = 205;
+        this.doubledoorY = 77;
     }
 
     preload ()
     {
         this.load.image('platformWhite', 'assets/textures/platformWhite.png');
         this.load.image('platformBlack', 'assets/textures/platformBlack.png');
-        this.load.spritesheet('player', 'assets/player-all.png', {frameWidth: 10, frameHeight: 14, endFrame: 10});
+        this.load.image('player', 'assets/Protagonist.png');
         this.load.spritesheet('monster', 'assets/textures/monster1_spritesheet.png', {frameWidth:32, frameHeight:32,endFrame:5});
         this.load.image('key','assets/textures/Key.png');
         this.load.image('doubledoor','assets/textures/doubledoor.png');
@@ -43,21 +41,11 @@ export class SceneA extends Phaser.Scene{
     create ()
     {
         //Player sprite and physics init
-        this.player = this.physics.add.sprite(this.playerStartingX, this.playerStartingY, 'player').setScale(4);
+        this.player = this.physics.add.sprite(this.playerStartingX, this.playerStartingY, 'player').setScale(0.5);
         this.player.setBounce(0);
         this.player.setCollideWorldBounds(true);
         this.player.body.setGravityY(300);
-        //player animations
-        playerAnims.forEach(anim => {
-           this.anims.create({
-               key: anim.key,
-               frames: this.anims.generateFrameNumbers('player', {
-                   start: anim.start,
-                   end: anim.end,
-               }),
-               frameRate: 7
-           })
-        });
+
         //monster setup
         this.monster = this.physics.add.sprite(this.monsterStartingX, this.monsterStartingY,"monster").setScale(4);
         this.monster.body.setGravity(0);
@@ -104,27 +92,20 @@ export class SceneA extends Phaser.Scene{
     }
 
     checkMovement() {
-        if (this.player.body.touching.down && this.cursors.up.isDown) {
-                this.player.setVelocityY(-330);
-                this.player.anims.play('jump', true);
-                return;
-        } else if (!this.player.body.touching.down) {
-            this.player.anims.play('jump', true);
-        }
+
         if(this.cursors.left.isDown) {
             this.player.setVelocityX(-160)
-            this.player.anims.play('left-run', true);
             console.log('left')
         }
         else if(this.cursors.right.isDown) {
             this.player.setVelocityX(160)
-            this.player.anims.play('right-run', true);
             console.log('right')
         } else {
             this.player.setVelocityX(0)
-            if (this.player.body.touching.down) {
-                this.player.anims.play('right');
-            }
+        }
+
+        if(this.cursors.up.isDown && this.player.body.touching.down) {
+            this.player.setVelocityY(-330);
         }
     }
 
@@ -155,15 +136,18 @@ export class SceneA extends Phaser.Scene{
                 //Nightmare platforms
                 this.monster.visible = true;
                 this.drawablePlatforms = this.physics.add.staticGroup();
-                this.drawablePlatforms.create(200, 570, 'platformBlack').refreshBody();
-                this.drawablePlatforms.create(600, 420, 'platformBlack').refreshBody();
+                this.drawablePlatforms.create(120, 680, 'platformBlack').setScale(0.5).refreshBody();
+                this.drawablePlatforms.create(300, 570, 'platformBlack').setScale(0.7).refreshBody();
+                this.drawablePlatforms.create(600, 400, 'platformBlack').setScale(0.6).refreshBody();
+                this.drawablePlatforms.create(1000, 250, 'platformBlack').setScale(0.5).refreshBody();
                 this.physics.add.collider(this.player, this.drawablePlatforms);
             } else {
                 //Reality platforms
                 this.monster.visible = false;
                 this.drawablePlatforms = this.physics.add.staticGroup();
-                this.drawablePlatforms.create(200, 570, 'platformWhite').refreshBody();
-                this.drawablePlatforms.create(1100, 250, 'platformWhite').refreshBody();
+                this.drawablePlatforms.create(120, 680, 'platformWhite').setScale(0.5).refreshBody();
+                this.drawablePlatforms.create(1250, 120, 'platformWhite').refreshBody();
+                this.drawablePlatforms.create(1250, 320, 'platformWhite').refreshBody();
                 this.physics.add.collider(this.player, this.drawablePlatforms);
             }
         } catch (err) {
