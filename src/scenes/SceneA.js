@@ -10,6 +10,7 @@ export class SceneA extends Phaser.Scene{
         this.monster;
         this.drawablePlatforms;
         this.key;
+        this.doubledoor;
         this.nightmareModeOn = false;
 
         this.playerStartingX = 120;
@@ -17,6 +18,8 @@ export class SceneA extends Phaser.Scene{
 
         this.monsterStartingX = 300;
         this.monsterStartingY = 150;
+
+        this.keyCollected = false;
     }
 
     preload ()
@@ -25,7 +28,8 @@ export class SceneA extends Phaser.Scene{
         this.load.image('platformBlack', 'assets/textures/platformBlack.png');
         this.load.spritesheet('player', 'assets/player-all.png', {frameWidth: 10, frameHeight: 14, endFrame: 10});
         this.load.spritesheet('monster', 'assets/textures/monster1_spritesheet.png', {frameWidth:32, frameHeight:32,endFrame:5});
-        //this.load.image('key','assets/textures/Key.png');
+        this.load.image('key','assets/textures/Key.png');
+        this.load.image('doubledoor','assets/textures/doubledoor.png');
 
     }
 
@@ -60,7 +64,8 @@ export class SceneA extends Phaser.Scene{
         this.anims.create(monsterconfig);
         this.monster.anims.play('wobble');
 
-        //this.key = this.physics.add.sprite(650,375,'key');
+        this.key = this.physics.add.sprite(650,375,'key');
+        this.doubledoor = this.physics.add.sprite(650,375,'doubledoor').setScale(4);
 
         this.physics.add.collider(this.player, this.drawablePlatforms);
         this.setupKeybindings(this);
@@ -70,6 +75,24 @@ export class SceneA extends Phaser.Scene{
     update () {
         this.checkMovement();
         this.monsterMovement(this);
+
+        if(this.checkCollide(this.player,this.key)){
+            this.collectItem(this.key);
+        }
+
+        if (this.keyCollected && this.checkCollide(this.player,this.doubledoor)){
+            this.scene.start('SceneB');
+        }
+    }
+
+    checkCollide(objA,objB){
+        return Phaser.Geom.Intersects.RectangleToRectangle(objA.getBounds(), objB.getBounds());
+    }
+
+    collectItem(obj){
+        this.keyCollected = true;
+        obj.destroy();
+
     }
 
     checkMovement() {
@@ -148,7 +171,7 @@ export class SceneA extends Phaser.Scene{
         this.cursors = ctx.input.keyboard.createCursorKeys();
 
         this.input.keyboard.on('keyup', event => {
-            if(event.code == "Space") {
+            if(event.code === "Space") {
                 this.nightmareModeOn = !this.nightmareModeOn;
                 this.drawWorld(ctx);
             }
