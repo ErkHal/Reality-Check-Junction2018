@@ -4,6 +4,7 @@ import { SceneB } from './scenes/SceneB';
 import { SceneC } from './scenes/SceneC';
 import resize from "./windowResize";
 import {SceneW} from "./scenes/SceneW";
+import {SceneStart} from "./scenes/SceneStart";
 
 class Controller extends Phaser.Scene {
 
@@ -20,9 +21,9 @@ class Controller extends Phaser.Scene {
     }
 
     create(){
-        this.scene.start('SceneA');
+        this.scene.start('SceneStart');
 
-        this.currentScene = this.scene.get('SceneA');
+        this.currentScene = this.scene.get('SceneStart');
     }
 
 }
@@ -39,7 +40,7 @@ const config = {
             debug: false
         }
     },
-    scene: [ Controller, SceneA, SceneB, SceneC, SceneW]
+    scene: [ Controller, SceneA, SceneB, SceneC, SceneW, SceneStart]
 };
 
 let game = new Phaser.Game(config);

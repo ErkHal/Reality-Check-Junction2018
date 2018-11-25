@@ -9,7 +9,7 @@ export class SceneW extends Phaser.Scene{
         this.text = this.make.text({
             x: 130,
             y: 100,
-            text:"You're'r winner !",
+            text:"win",
             style: {
                 fontSize: '100px'
             }
