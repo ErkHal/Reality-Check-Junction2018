@@ -40,7 +40,8 @@ export class SceneStart extends Phaser.Scene{
             y: 600,
             text:"Arrow keys to move & jump\nSpace to switch between reality/nightmare\nEnter to start game",
             style: {
-                fontSize: '20px'
+                fontSize: '25px',
+                color: '#000'
             }
         });
 
