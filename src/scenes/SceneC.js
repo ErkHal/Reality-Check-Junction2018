@@ -41,7 +41,7 @@ export class SceneC extends Phaser.Scene {
     create ()
     {
         //Player sprite and physics init
-        this.player = this.physics.add.sprite(this.playerStartingX, this.playerStartingY, 'player').setScale(0.5);
+        this.player = this.physics.add.sprite(this.playerStartingX, this.playerStartingY, 'player').setScale(4);
         this.player.setBounce(0);
         this.player.setCollideWorldBounds(true);
         this.player.body.setGravityY(300);
