@@ -71,7 +71,8 @@ export class SceneA extends Phaser.Scene{
         this.anims.create(monsterconfig);
         this.monster.anims.play('wobble');
 
-        this.key = this.physics.add.sprite(this.keyX, this.keyY,'key');
+        this.drawKey();
+        //this.key = this.physics.add.sprite(this.keyX, this.keyY,'key');
         this.doubledoor = this.physics.add.sprite(this.doubledoorX, this.doubledoorY,'doubledoor').setScale(4);
 
         this.physics.add.collider(this.player, this.drawablePlatforms);
@@ -82,10 +83,7 @@ export class SceneA extends Phaser.Scene{
     update () {
         this.checkMovement();
         this.monsterMovement();
-
-        if(this.player.y > 671){
-            this.resetLevel();
-        }
+        this.floorBoundCheck();
 
         if(this.checkCollide(this.player,this.key)){
             this.collectItem(this.key);
@@ -97,6 +95,11 @@ export class SceneA extends Phaser.Scene{
         }
     }
 
+    floorBoundCheck(){
+        if(this.player.y > 671){
+            this.resetLevel();
+        }
+    }
     checkCollide(objA,objB){
         return Phaser.Geom.Intersects.RectangleToRectangle(objA.getBounds(), objB.getBounds());
     }
@@ -105,6 +108,11 @@ export class SceneA extends Phaser.Scene{
         this.keyCollected = true;
         obj.destroy();
 
+    }
+
+    drawKey(){
+        this.keyCollected = false;
+        this.key = this.physics.add.sprite(this.keyX, this.keyY,'key');
     }
 
     checkMovement() {
@@ -191,5 +199,6 @@ export class SceneA extends Phaser.Scene{
         this.monster.setPosition(this.monsterStartingX, this.monsterStartingY);
         this.nightmareModeOn = false;
         this.drawWorld();
+        this.drawKey();
     }
 }
