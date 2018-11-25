@@ -1,3 +1,5 @@
+import playerAnims from "../playerAnims";
+
 export class SceneB extends Phaser.Scene {
 
     constructor(){
@@ -45,6 +47,17 @@ export class SceneB extends Phaser.Scene {
         this.player.setBounce(0);
         this.player.setCollideWorldBounds(true);
         this.player.body.setGravityY(300);
+        //player animations
+        playerAnims.forEach(anim => {
+           this.anims.create({
+               key: anim.key,
+               frames: this.anims.generateFrameNumbers('player', {
+                   start: anim.start,
+                   end: anim.end,
+               }),
+               frameRate: 7
+           })
+        });
 
         //monster setup
         this.monster = this.physics.add.sprite(this.monsterStartingX, this.monsterStartingY,"monster").setScale(4);
@@ -92,20 +105,27 @@ export class SceneB extends Phaser.Scene {
     }
 
     checkMovement() {
-
+        if (this.player.body.touching.down && this.cursors.up.isDown) {
+                this.player.setVelocityY(-330);
+                this.player.anims.play('jump', true);
+                return;
+        } else if (!this.player.body.touching.down) {
+            this.player.anims.play('jump', true);
+        }
         if(this.cursors.left.isDown) {
             this.player.setVelocityX(-160)
+            this.player.anims.play('left-run', true);
             console.log('left')
         }
         else if(this.cursors.right.isDown) {
             this.player.setVelocityX(160)
+            this.player.anims.play('right-run', true);
             console.log('right')
         } else {
             this.player.setVelocityX(0)
-        }
-
-        if(this.cursors.up.isDown && this.player.body.touching.down) {
-            this.player.setVelocityY(-330);
+            if (this.player.body.touching.down) {
+                this.player.anims.play('right');
+            }
         }
     }
 
