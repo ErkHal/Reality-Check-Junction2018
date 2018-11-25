@@ -25,7 +25,7 @@ export class SceneW extends Phaser.Scene{
         this.make.text({
             x: 330,
             y: 630,
-            text:"Junction Hackathon 2018 Game Jam Challenge",
+            text:"Junction Hackathon 2018 Game Jam Challenge\nTeam Flamebeanie",
             style: {
                 fontSize: '18px'
             }

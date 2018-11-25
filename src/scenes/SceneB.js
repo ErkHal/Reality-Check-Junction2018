@@ -107,8 +107,8 @@ export class SceneB extends Phaser.Scene {
 
     collectItem(obj){
         this.keyCollected = true;
+        obj.visible = false;
         obj.destroy();
-
     }
 
     drawKey(){

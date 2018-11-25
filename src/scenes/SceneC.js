@@ -102,9 +102,10 @@ export class SceneC extends Phaser.Scene {
 
     collectItem(obj){
         this.keyCollected = true;
+        obj.visible = false;
         obj.destroy();
-
     }
+
     floorBoundCheck(){
         if(this.player.y > 671){
             this.resetLevel();

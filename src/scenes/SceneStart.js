@@ -35,6 +35,14 @@ export class SceneStart extends Phaser.Scene{
                 fontSize: '100px'
             }
         });
+        this.make.text({
+            x: 300,
+            y: 600,
+            text:"Arrow keys to move & jump\nSpace to switch between reality/nightmare\nEnter to start game",
+            style: {
+                fontSize: '20px'
+            }
+        });
 
         this.input.keyboard.on('keyup',event => {
             if(event.code === 'Enter'){
