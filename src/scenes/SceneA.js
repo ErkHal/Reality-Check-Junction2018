@@ -112,7 +112,7 @@ export class SceneA extends Phaser.Scene{
 
     drawKey(){
         this.keyCollected = false;
-        this.key = this.physics.add.sprite(this.keyX, this.keyY,'key');
+        this.key = this.physics.add.sprite(this.keyX, this.keyY,'key').setScale(2);
     }
 
     checkMovement() {

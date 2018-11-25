@@ -9,7 +9,7 @@ export class SceneStart extends Phaser.Scene{
     }
 
     create() {
-        this.text = this.make.text({
+        this.make.text({
             x: 100,
             y: 130,
             text:"Reality",
@@ -17,7 +17,7 @@ export class SceneStart extends Phaser.Scene{
                 fontSize: '120px'
             }
         });
-        this.text = this.make.text({
+        this.make.text({
             x: 620,
             y: 190,
             text:"Check",
@@ -27,7 +27,7 @@ export class SceneStart extends Phaser.Scene{
             }
         });
         this.physics.add.sprite(430,430,'arrow').setScale(1.5);
-        this.text = this.make.text({
+        this.make.text({
             x: 500,
             y: 450,
             text:"Start",
