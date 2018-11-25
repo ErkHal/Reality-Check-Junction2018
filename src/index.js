@@ -1,4 +1,5 @@
 import 'phaser';
+import resize from "./windowResize";
 
 const config = {
     type: Phaser.AUTO,
