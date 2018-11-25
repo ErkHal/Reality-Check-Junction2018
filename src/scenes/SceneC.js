@@ -74,7 +74,6 @@ export class SceneC extends Phaser.Scene {
         this.monster.anims.play('wobble');
 
         this.drawKey();
-        //this.key = this.physics.add.sprite(this.keyX, this.keyY,'key');
         this.doubledoor = this.physics.add.sprite(this.doubledoorX, this.doubledoorY,'doubledoor').setScale(4);
 
         this.physics.add.collider(this.player, this.drawablePlatforms);
@@ -114,7 +113,7 @@ export class SceneC extends Phaser.Scene {
 
     drawKey(){
         this.keyCollected = false;
-        this.key = this.physics.add.sprite(this.keyX, this.keyY,'key');
+        this.key = this.physics.add.sprite(this.keyX, this.keyY,'key').setScale(2);
     }
 
     checkMovement() {

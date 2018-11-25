@@ -113,7 +113,7 @@ export class SceneB extends Phaser.Scene {
 
     drawKey(){
         this.keyCollected = false;
-        this.key = this.physics.add.sprite(this.keyX, this.keyY,'key');
+        this.key = this.physics.add.sprite(this.keyX, this.keyY,'key').setScale(2);
     }
 
     checkMovement() {
@@ -172,6 +172,7 @@ export class SceneB extends Phaser.Scene {
                 this.drawablePlatforms.create(300, 570, 'platformBlack').setScale(0.7).refreshBody();
                 this.drawablePlatforms.create(600, 400, 'platformBlack').setScale(0.6).refreshBody();
                 this.drawablePlatforms.create(1000, 250, 'platformBlack').setScale(0.5).refreshBody();
+                this.drawablePlatforms.create(1250, 120, 'platformBlack').refreshBody();
                 this.physics.add.collider(this.player, this.drawablePlatforms);
             } else {
                 //Reality platforms

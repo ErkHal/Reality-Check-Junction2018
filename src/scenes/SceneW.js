@@ -30,9 +30,13 @@ export class SceneW extends Phaser.Scene{
                 fontSize: '18px'
             }
         });
-        this.input.keyboard.on('keyup',event => {
-            if(event.code === 'Enter'){
-                this.scene.start('SceneStart');
+        this.make.text({
+            x: 270,
+            y: 500,
+            text:"Press F5 to restart",
+            style: {
+                fontSize: '25px',
+                color: '#000'
             }
         });
     }
