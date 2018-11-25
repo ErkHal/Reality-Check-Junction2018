@@ -76,8 +76,8 @@ export class SceneA extends Phaser.Scene{
         this.doubledoor = this.physics.add.sprite(this.doubledoorX, this.doubledoorY,'doubledoor').setScale(4);
 
         this.physics.add.collider(this.player, this.drawablePlatforms);
-        this.setupKeybindings(this);
-        this.drawWorld(this);
+        this.setupKeybindings();
+        this.drawWorld();
     }
 
     update () {

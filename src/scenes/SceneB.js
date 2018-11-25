@@ -33,7 +33,7 @@ export class SceneB extends Phaser.Scene {
     {
         this.load.image('platformWhite', 'assets/textures/platformWhite.png');
         this.load.image('platformBlack', 'assets/textures/platformBlack.png');
-        this.load.image('player', 'assets/Protagonist.png');
+        this.load.spritesheet('player', 'assets/player-all.png', {frameWidth: 10, frameHeight: 14, endFrame: 10});
         this.load.spritesheet('monster', 'assets/textures/monster1_spritesheet.png', {frameWidth:32, frameHeight:32,endFrame:5});
         this.load.image('key','assets/textures/Key.png');
         this.load.image('doubledoor','assets/textures/doubledoor.png');
@@ -85,6 +85,10 @@ export class SceneB extends Phaser.Scene {
         this.checkMovement();
         this.monsterMovement();
         this.floorBoundCheck();
+
+        if(this.player.y > 671){
+            this.resetLevel();
+        }
 
         if(this.checkCollide(this.player,this.key)){
             this.collectItem(this.key);

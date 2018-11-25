@@ -17,23 +17,24 @@ export class SceneC extends Phaser.Scene {
         this.playerStartingX = 120;
         this.playerStartingY = 620;
 
-        this.monsterStartingX = 300;
-        this.monsterStartingY = 150;
-        this.monsterSpeed = 80;
+        this.monsterStartingX = 1000;
+        this.monsterStartingY = 600;
+        this.monsterSpeed = 120;
 
-        this.keyX = 1150;
-        this.keyY = 300;
+        this.keyX = 420;
+        this.keyY = 500;
         this.keyCollected = false;
 
-        this.doubledoorX = 1150;
-        this.doubledoorY = 77;
+        this.doubledoorX = 600;
+        this.doubledoorY = 62;
     }
 
     preload ()
     {
         this.load.image('platformWhite', 'assets/textures/platformWhite.png');
         this.load.image('platformBlack', 'assets/textures/platformBlack.png');
-        this.load.image('player', 'assets/Protagonist.png');
+        this.load.image('cubeBlack', 'assets/textures/cubeBlack.png');
+        this.load.spritesheet('player', 'assets/player-all.png', {frameWidth: 10, frameHeight: 14, endFrame: 10});
         this.load.spritesheet('monster', 'assets/textures/monster1_spritesheet.png', {frameWidth:32, frameHeight:32,endFrame:5});
         this.load.image('key','assets/textures/Key.png');
         this.load.image('doubledoor','assets/textures/doubledoor.png');
@@ -169,17 +170,19 @@ export class SceneC extends Phaser.Scene {
                 this.monster.visible = true;
                 this.drawablePlatforms = this.physics.add.staticGroup();
                 this.drawablePlatforms.create(120, 680, 'platformBlack').setScale(0.5).refreshBody();
-                this.drawablePlatforms.create(300, 570, 'platformBlack').setScale(0.7).refreshBody();
-                this.drawablePlatforms.create(600, 400, 'platformBlack').setScale(0.6).refreshBody();
+                this.drawablePlatforms.create(450, 530, 'platformBlack').setScale(0.7).refreshBody();
+                this.drawablePlatforms.create(450, 420, 'platformBlack').setScale(0.7).refreshBody();
                 this.drawablePlatforms.create(1000, 250, 'platformBlack').setScale(0.5).refreshBody();
+                this.drawablePlatforms.create(600, 100, 'platformBlack').refreshBody();
+                this.drawablePlatforms.create(450, 78, 'cubeBlack').refreshBody();
                 this.physics.add.collider(this.player, this.drawablePlatforms);
             } else {
                 //Reality platforms
                 this.monster.visible = false;
                 this.drawablePlatforms = this.physics.add.staticGroup();
                 this.drawablePlatforms.create(120, 680, 'platformWhite').setScale(0.5).refreshBody();
-                this.drawablePlatforms.create(1250, 120, 'platformWhite').refreshBody();
-                this.drawablePlatforms.create(1250, 320, 'platformWhite').refreshBody();
+                this.drawablePlatforms.create(550, 320, 'platformWhite').refreshBody();
+                this.drawablePlatforms.create(600, 100, 'platformWhite').refreshBody();
                 this.physics.add.collider(this.player, this.drawablePlatforms);
             }
         } catch (err) {

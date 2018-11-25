@@ -19,8 +19,7 @@ class Controller extends Phaser.Scene {
     }
 
     create(){
-        this.scene.start('SceneA');
-
+        this.scene.start('SceneC');
         this.currentScene = this.scene.get('SceneA');
     }
 
