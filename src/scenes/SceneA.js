@@ -83,6 +83,10 @@ export class SceneA extends Phaser.Scene{
         this.checkMovement();
         this.monsterMovement();
 
+        if(this.player.y > 671){
+            this.resetLevel();
+        }
+
         if(this.checkCollide(this.player,this.key)){
             this.collectItem(this.key);
         }
