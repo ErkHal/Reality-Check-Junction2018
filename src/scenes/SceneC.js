@@ -1,6 +1,8 @@
 import playerAnims from "../playerAnims";
 import Utils from '../Utils';
 
+const currentLevel = require('../levelPlatforms/levelC');
+
 export class SceneC extends Phaser.Scene {
 
     constructor(){
@@ -83,9 +85,9 @@ export class SceneC extends Phaser.Scene {
     }
 
     update () {
-        this.checkMovement();
-        this.monsterMovement();
+        Utils.checkPlayerMovement(this);
         Utils.floorBoundCheck(this);
+        this.monsterMovement();
 
         if(Utils.checkCollide(this.player,this.key)){
             this.collectItem(this.key);
@@ -101,31 +103,6 @@ export class SceneC extends Phaser.Scene {
         this.keyCollected = true;
         obj.visible = false;
         obj.destroy();
-    }
-
-    checkMovement() {
-        if (this.player.body.touching.down && this.cursors.up.isDown) {
-                this.player.setVelocityY(-330);
-                this.player.anims.play('jump', true);
-                return;
-        } else if (!this.player.body.touching.down) {
-            this.player.anims.play('jump', true);
-        }
-        if(this.cursors.left.isDown) {
-            this.player.setVelocityX(-160)
-            this.player.anims.play('left-run', true);
-            console.log('left')
-        }
-        else if(this.cursors.right.isDown) {
-            this.player.setVelocityX(160)
-            this.player.anims.play('right-run', true);
-            console.log('right')
-        } else {
-            this.player.setVelocityX(0)
-            if (this.player.body.touching.down) {
-                this.player.anims.play('right');
-            }
-        }
     }
 
     monsterMovement(){
@@ -154,22 +131,11 @@ export class SceneC extends Phaser.Scene {
             if(this.nightmareModeOn) {
                 //Nightmare platforms
                 this.monster.visible = true;
-                this.drawablePlatforms = this.physics.add.staticGroup();
-                this.drawablePlatforms.create(120, 680, 'platformBlack').setScale(0.5).refreshBody();
-                this.drawablePlatforms.create(450, 530, 'platformBlack').setScale(0.7).refreshBody();
-                this.drawablePlatforms.create(450, 420, 'platformBlack').setScale(0.7).refreshBody();
-                this.drawablePlatforms.create(1000, 250, 'platformBlack').setScale(0.5).refreshBody();
-                this.drawablePlatforms.create(600, 100, 'platformBlack').refreshBody();
-                this.drawablePlatforms.create(450, 78, 'cubeBlack').refreshBody();
-                this.physics.add.collider(this.player, this.drawablePlatforms);
+                Utils.drawLevelPlatforms(this, currentLevel.nightmare, 'platformBlack');
             } else {
                 //Reality platforms
                 this.monster.visible = false;
-                this.drawablePlatforms = this.physics.add.staticGroup();
-                this.drawablePlatforms.create(120, 680, 'platformWhite').setScale(0.5).refreshBody();
-                this.drawablePlatforms.create(550, 320, 'platformWhite').refreshBody();
-                this.drawablePlatforms.create(600, 100, 'platformWhite').refreshBody();
-                this.physics.add.collider(this.player, this.drawablePlatforms);
+                Utils.drawLevelPlatforms(this, currentLevel.reality, 'platformWhite');
             }
         } catch (err) {
             console.log(err);
