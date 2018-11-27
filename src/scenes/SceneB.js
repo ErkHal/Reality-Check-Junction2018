@@ -1,4 +1,5 @@
 import playerAnims from "../playerAnims";
+import Utils from '../Utils';
 
 export class SceneB extends Phaser.Scene {
 
@@ -72,36 +73,26 @@ export class SceneB extends Phaser.Scene {
         this.anims.create(monsterconfig);
         this.monster.anims.play('wobble');
 
-        this.drawKey();
         this.doubledoor = this.physics.add.sprite(this.doubledoorX, this.doubledoorY,'doubledoor').setScale(4);
 
         this.physics.add.collider(this.player, this.drawablePlatforms);
-        this.setupKeybindings(this);
+        Utils.setupKeybindings(this);
         this.drawWorld(this);
+        Utils.drawKey(this);
     }
 
     update () {
         this.checkMovement();
         this.monsterMovement();
-        this.floorBoundCheck();
+        Utils.floorBoundCheck(this);
 
-        if(this.checkCollide(this.player,this.key)){
+        if(Utils.checkCollide(this.player,this.key)){
             this.collectItem(this.key);
         }
 
         //Start next level when player reaches door with the key
-        if (this.keyCollected && this.checkCollide(this.player,this.doubledoor)){
+        if (this.keyCollected && Utils.checkCollide(this.player,this.doubledoor)){
             this.scene.start(this.nextScene);
-        }
-    }
-
-    checkCollide(objA,objB){
-        return Phaser.Geom.Intersects.RectangleToRectangle(objA.getBounds(), objB.getBounds());
-    }
-
-    floorBoundCheck(){
-        if(this.player.y > 671){
-            this.resetLevel();
         }
     }
 
@@ -109,11 +100,6 @@ export class SceneB extends Phaser.Scene {
         this.keyCollected = true;
         obj.visible = false;
         obj.destroy();
-    }
-
-    drawKey(){
-        this.keyCollected = false;
-        this.key = this.physics.add.sprite(this.keyX, this.keyY,'key').setScale(2);
     }
 
     checkMovement() {
@@ -145,7 +131,7 @@ export class SceneB extends Phaser.Scene {
         if(this.nightmareModeOn) {
 
             this.physics.moveToObject(this.monster, this.player, this.monsterSpeed)
-            this.checkCollide(this.player, this.monster)
+            Utils.checkCollide(this.player, this.monster)
             ? this.resetLevel()
             : {}
         } else {
@@ -188,22 +174,12 @@ export class SceneB extends Phaser.Scene {
         }
     }
 
-    setupKeybindings() {
-        this.cursors = this.input.keyboard.createCursorKeys();
-
-        this.input.keyboard.on('keyup', event => {
-            if(event.code === "Space") {
-                this.nightmareModeOn = !this.nightmareModeOn;
-                this.drawWorld();
-            }
-        });
-    }
-
     resetLevel() {
+        this.player.setVelocityY(0);
         this.player.setPosition(this.playerStartingX, this.playerStartingY);
         this.monster.setPosition(this.monsterStartingX, this.monsterStartingY);
         this.nightmareModeOn = false;
         this.drawWorld();
-        this.drawKey();
+        Utils.drawKey(this);
     }
 }
